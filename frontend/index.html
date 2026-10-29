@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Hallucination Detector</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>LLM Hallucination Detector</h1>
+        <p>Verify AI-generated answers with evidence and explanations.</p>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Analyze AI Answer</h2>
+            <label for="answer">Paste your AI-generated answer</label>
+            <textarea id="answer" placeholder="Paste an AI-generated answer here..."></textarea>
+            <button id="analyzeBtn">Analyze Answer</button>
+            <p id="status" role="status"></p>
+        </section>
+
+        <section class="card">
+            <h2>Analysis Results</h2>
+            <div id="results">
+                <p>Your analysis results will appear here.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #0b1120;
+    color: #e5e7eb;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 45px 20px 35px;
+    background: linear-gradient(135deg, #111c35, #172554);
+    border-bottom: 1px solid #263653;
+}
+
+header h1 {
+    color: #93c5fd;
+    font-size: clamp(26px, 4vw, 40px);
+    margin-bottom: 12px;
+}
+
+header p {
+    color: #b6c4d8;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.container {
+    width: min(1000px, 92%);
+    margin: 35px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.card {
+    background: #111b2e;
+    border: 1px solid #293851;
+    border-radius: 16px;
+    padding: 26px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+    font-size: 20px;
+    margin-bottom: 22px;
+    color: #f1f5f9;
+}
+
+label {
+    display: block;
+    margin-bottom: 12px;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 220px;
+    resize: vertical;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #34445e;
+    background: #0b1324;
+    color: #f8fafc;
+    font: inherit;
+    line-height: 1.6;
+    outline: none;
+}
+
+textarea:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.12);
+}
+
+textarea::placeholder {
+    color: #718198;
+}
+
+button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #3b82f6;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+button:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    opacity: 0.65;
+    cursor: wait;
+    transform: none;
+}
+
+#status {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #93c5fd;
+    line-height: 1.5;
+}
+
+#results {
+    color: #b6c4d8;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+    .container {
+        grid-template-columns: 1fr;
+        margin: 22px auto;
+    }
+
+    header {
+        padding: 32px 18px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+}
+
+.result-summary {
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: #172554;
+    color: #bfdbfe;
+    font-weight: 600;
+    line-height: 1.7;
+}
+
+.result-note {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 16px;
+}
+
+.claim-card {
+    padding: 16px;
+    margin-top: 12px;
+    background: #0b1324;
+    border: 1px solid #34445e;
+    border-left: 4px solid #64748b;
+    border-radius: 10px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.claim-card:hover {
+    border-color: #60a5fa;
+    transform: translateY(-2px);
+}
+
+.claim-text {
+    color: #f8fafc;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.claim-label {
+    display: inline-block;
+    padding: 6px 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    background: #263653;
+    color: #bfdbfe;
+}
+
+/* Green: Supported */
+.claim-label[data-label="Supported"] {
+    background: #14532d;
+    color: #86efac;
+    border: 1px solid #22c55e;
+}
+
+/* Red: Contradicted */
+.claim-label[data-label="Contradicted"] {
+    background: #7f1d1d;
+    color: #fecaca;
+    border: 1px solid #ef4444;
+}
+
+/* Yellow: Not Enough Evidence */
+.claim-label[data-label="Not Enough Evidence"] {
+    background: #713f12;
+    color: #fde68a;
+    border: 1px solid #eab308;
+}
+
+.claim-card p {
+    overflow-wrap: anywhere;
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
