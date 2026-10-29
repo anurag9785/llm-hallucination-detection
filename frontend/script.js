@@ -35,7 +35,6 @@ analyzeBtn.addEventListener("click", async () => {
             throw new Error(data.detail || "Analysis failed.");
         }
 
-        // Count each claim category
         const supportedCount = data.claims.filter(
             item => item.label === "Supported"
         ).length;
@@ -57,8 +56,9 @@ analyzeBtn.addEventListener("click", async () => {
 
         results.appendChild(summary);
 
-        // Claim statistics cards
+        // Statistics
         const stats = document.createElement("div");
+
         stats.style.cssText =
             "display:grid;" +
             "grid-template-columns:repeat(auto-fit,minmax(120px,1fr));" +
@@ -91,20 +91,17 @@ analyzeBtn.addEventListener("click", async () => {
             stat.style.cssText =
                 `background:${category.background};` +
                 `border:1px solid ${category.color};` +
-                "border-radius:10px;padding:14px;" +
-                "text-align:center;";
+                "border-radius:10px;padding:14px;text-align:center;";
 
             const count = document.createElement("div");
             count.textContent = category.count;
             count.style.cssText =
-                `font-size:26px;font-weight:700;` +
-                `color:${category.color};`;
+                `font-size:26px;font-weight:700;color:${category.color};`;
 
             const title = document.createElement("div");
             title.textContent = category.title;
             title.style.cssText =
-                "font-size:12px;margin-top:6px;" +
-                "color:#f8fafc;line-height:1.5;";
+                "font-size:12px;margin-top:6px;color:#f8fafc;";
 
             stat.append(count, title);
             stats.appendChild(stat);
@@ -112,7 +109,7 @@ analyzeBtn.addEventListener("click", async () => {
 
         results.appendChild(stats);
 
-        // Risk score progress bar
+        // Risk score bar
         const riskScore = Math.max(
             0,
             Math.min(100, Number(data.risk_score) || 0)
@@ -128,15 +125,12 @@ analyzeBtn.addEventListener("click", async () => {
         const barContainer = document.createElement("div");
         barContainer.style.cssText =
             "height:12px;background:#263653;" +
-            "border-radius:99px;overflow:hidden;" +
-            "margin:12px 0 10px;";
+            "border-radius:99px;overflow:hidden;margin:12px 0 10px;";
 
         const bar = document.createElement("div");
         bar.style.cssText =
             `height:100%;width:${riskScore}%;` +
-            `background:${riskColor};` +
-            "border-radius:99px;" +
-            "transition:width 0.4s ease;";
+            `background:${riskColor};border-radius:99px;`;
 
         barContainer.appendChild(bar);
         results.appendChild(barContainer);
@@ -157,7 +151,7 @@ analyzeBtn.addEventListener("click", async () => {
 
         results.appendChild(riskText);
 
-        // Explain the demo's limitations
+        // Limitations note
         const note = document.createElement("p");
         note.className = "result-note";
         note.textContent = data.note || "";
@@ -188,8 +182,7 @@ analyzeBtn.addEventListener("click", async () => {
 
             const confidence = document.createElement("p");
             confidence.textContent =
-                "Confidence: " +
-                (item.confidence || "Unverified");
+                "Confidence: " + (item.confidence || "Unverified");
 
             card.append(
                 claim,
@@ -198,6 +191,24 @@ analyzeBtn.addEventListener("click", async () => {
                 evidence,
                 confidence
             );
+
+            // Semantic similarity score
+            if (typeof item.similarity === "number") {
+                const similarity = document.createElement("p");
+
+                const percentage = Math.round(
+                    item.similarity * 100
+                );
+
+                similarity.textContent =
+                    `Semantic Similarity: ${percentage}%`;
+
+                similarity.style.cssText =
+                    "margin-top:10px;color:#60a5fa;" +
+                    "font-weight:600;font-size:14px;";
+
+                card.appendChild(similarity);
+            }
 
             results.appendChild(card);
         }

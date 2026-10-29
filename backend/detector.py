@@ -1,4 +1,8 @@
+
 import re
+
+from backend.semantic_matcher import find_similar_evidence
+
 
 EVIDENCE = [
     {
@@ -41,14 +45,13 @@ def retrieve_evidence(claim: str) -> list[dict]:
     normalized_claim = re.sub(
         r"[.!?]+$", "", claim.lower().strip()
     )
+
     matches = []
 
     for item in EVIDENCE:
-        keywords = item["keywords"]
-
         if all(
             keyword.lower() in normalized_claim
-            for keyword in keywords
+            for keyword in item["keywords"]
         ):
             matches.append(item)
 
@@ -59,7 +62,6 @@ def analyze_claim(claim: str) -> dict:
     normalized = claim.lower().strip()
     normalized = re.sub(r"[.!?]+$", "", normalized)
 
-    # Step 1: Check known contradictions first
     contradiction_pairs = [
         ("the sun is a star", ["the sun is not a star"]),
         (
@@ -85,10 +87,8 @@ def analyze_claim(claim: str) -> dict:
                 "confidence": "Rule-based contradiction",
             }
 
-    # Step 2: Retrieve evidence using keywords
     matches = retrieve_evidence(claim)
 
-    # Step 3: Confirm an exact match before marking Supported
     for item in matches:
         fact_normalized = item["fact"].lower().rstrip(".")
 
@@ -104,16 +104,34 @@ def analyze_claim(claim: str) -> dict:
                 "confidence": "High (exact demo fact match)",
             }
 
-    # Step 4: Evidence found, but exact verification is unavailable
+    evidence_facts = [item["fact"] for item in EVIDENCE]
+
+    semantic_matches = find_similar_evidence(
+        claim,
+        evidence_facts,
+        threshold=0.60,
+    )
+
+    if semantic_matches:
+        best_match = semantic_matches[0]
+
+        return {
+            "claim": claim,
+            "label": "Not Enough Evidence",
+            "evidence": best_match["fact"],
+            "explanation": (
+                "Semantically similar evidence was found, "
+                "but similarity alone cannot verify factual accuracy."
+            ),
+            "confidence": "Semantic match (not verified)",
+            "similarity": best_match["similarity"],
+        }
+
     return {
         "claim": claim,
         "label": "Not Enough Evidence",
-        "evidence": matches[0]["fact"] if matches else None,
+        "evidence": None,
         "explanation": (
-            "Matching evidence was retrieved, but the claim "
-            "did not exactly match it. Further verification is needed."
-            if matches
-            else
             "No matching evidence was found in the demo evidence base. "
             "This does not mean the claim is false."
         ),
@@ -140,7 +158,9 @@ def analyze_answer(answer: str) -> dict:
         "uncertain_claims": uncertain,
         "risk_score": risk_score,
         "note": (
-            "Demo score based on missing exact matches; "
+            "Demo score based on uncertain claims; "
             "it is not a validated hallucination probability."
         ),
     }
+
+

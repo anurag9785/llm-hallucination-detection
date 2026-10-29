@@ -1,4 +1,4 @@
-
+from backend.detector import analyze_claim, analyze_answer
 from backend.detector import analyze_answer
 
 
@@ -67,3 +67,10 @@ def test_unknown_claim_is_not_marked_false():
 
     assert result["claims"][0]["label"] == "Not Enough Evidence"
     assert result["claims"][0]["evidence"] is None
+def test_semantic_match_is_not_marked_supported():
+    result = analyze_claim(
+        "The Earth moves around our Sun."
+    )
+
+    assert result["label"] == "Not Enough Evidence"
+    assert result["similarity"] > 0
