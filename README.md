@@ -1,11 +1,10 @@
-
 # LLM Hallucination Detection & Explanation
 
 A Python-based web application that analyzes AI-generated answers, splits them into individual claims, and checks them against a small demo evidence base.
 
 ## Overview
 
-Large Language Models (LLMs) can sometimes generate information that is incorrect or unsupported. This project demonstrates a basic, rule-based approach to identifying claims that need further verification.
+Large Language Models (LLMs) can sometimes generate incorrect or unsupported information. This project demonstrates a basic, rule-based approach to identifying claims that need further verification.
 
 ## Features
 
@@ -31,7 +30,7 @@ Large Language Models (LLMs) can sometimes generate information that is incorrec
 ## Project Structure
 
 ```text
-LLM Hallucination Detection & Explanation/
+llm-hallucination-detection/
 ├── backend/
 │   ├── main.py
 │   └── detector.py
@@ -42,22 +41,20 @@ LLM Hallucination Detection & Explanation/
 ├── tests/
 │   └── test_detector.py
 ├── data/
-├── .venv/
+├── .gitignore
 └── README.md
 ```
 
 ## Installation and Setup
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd "LLM Hallucination Detection & Explanation"
+git clone https://github.com/anurag9785/llm-hallucination-detection.git
+cd llm-hallucination-detection
 ```
 
-Replace `YOUR_GITHUB_REPOSITORY_URL` with your actual repository URL.
-
-### 2. Create and activate a virtual environment
+### 2. Create and Activate a Virtual Environment
 
 ```bash
 python -m venv .venv
@@ -69,13 +66,13 @@ On Windows Command Prompt:
 .venv\Scripts\activate.bat
 ```
 
-### 3. Install dependencies
+### 3. Install Dependencies
 
 ```bash
 python -m pip install fastapi "uvicorn[standard]" pydantic pytest
 ```
 
-### 4. Start the backend
+### 4. Start the Backend
 
 ```bash
 python -m uvicorn backend.main:app --reload
@@ -89,13 +86,15 @@ Interactive API documentation:
 
 http://127.0.0.1:8000/docs
 
-### 5. Open the frontend
-
-Open `frontend/index.html` in a browser, or use the VS Code Live Server extension.
-
 Keep the backend running while using the frontend.
 
+### 5. Open the Frontend
+
+Open `frontend/index.html` in your browser, or use the VS Code Live Server extension.
+
 ## Run Tests
+
+Run the following command from the project root:
 
 ```bash
 python -m pytest -v
@@ -104,7 +103,7 @@ python -m pytest -v
 ## How It Works
 
 1. The user submits an AI-generated answer.
-2. The backend separates the answer into claims.
+2. The backend separates the answer into individual claims.
 3. Each claim is compared with predefined demo evidence and contradiction rules.
 4. The application assigns a label and provides an explanation.
 5. The frontend displays the results, statistics, and demo risk indicator.
